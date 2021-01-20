@@ -1,0 +1,29 @@
+{
+	"name": "jingwei-ui",
+	"version": "1.0.0-SNAPSHOT",
+	"description": "jingwei's frontend project base on SK-UI",
+	"scripts": {
+		"serve": "sk-cli-service serve",
+		"build": "sk-cli-service build",
+		"lint": "sk-cli-service lint",
+		"production": "npm run build"
+	},
+	"dependencies": {
+		"@sk/sk-ui-sdk": "^2.6.0",
+		"@sk/sk-web-ui": "2.6.0",
+		"element-ui": "^2.6.0-SNAPSHOT"
+	},
+	"devDependencies": {
+		"@sk/cli-service": "^2.6.130",
+		"babel-plugin-component": "^1.1.1"
+	},
+	"engines": {
+		"node": ">= 6.0.0",
+		"npm": ">= 3.0.0"
+	},
+	"browserslist": [
+		"> 1%",
+		"last 2 versions",
+		"not ie <= 9"
+	]
+}
