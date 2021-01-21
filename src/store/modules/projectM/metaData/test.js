@@ -1,4 +1,4 @@
-// import { action } from 'sky-engine/api/index'
+import { action } from 'sky-engine/api/index'
 
 import { PROJECTLIB_GROUP, PROJECTLIB_PROJECT } from '@/api/apiModules'
 export default {
@@ -51,34 +51,36 @@ export default {
       refreshInterval: false,
       module: PROJECTLIB_PROJECT,
       relationSearch: true,
-      allowStatus: {
-        new: { desktopState: ['RUNNING'] },
-        stop: { desktopState: ['RUNNING'] },
-        delete: { desktopState: ['CLOSE'] },
-        revert: { desktopState: ['CLOSE'], desktopType: ['PERSONAL', 'APP_LAYER'] },
-        remote: { desktopState: ['RUNNING'] },
-        editStrategy: { desktopState: ['CLOSE'], userType: ['NORMAL', 'AD'] },
-        editNetwork: { desktopState: ['CLOSE'], userType: ['NORMAL', 'AD'] },
-        errorRecover: { desktopState: ['ERROR'] }
+      cb: function() {
+        console.log(this)
+        // 获取组的信息（是否允许创建）this.listQuery.exactMatchArr[0].valueArr[0]
+        console.log(this.listQuery.exactMatchArr[0].valueArr[0])
+        const groupId = this.listQuery.exactMatchArr[0].valueArr[0]
+        action(PROJECTLIB_GROUP, 'detail', {
+          groupId: groupId
+        }).then(result => {
+          if (result.data.content.enableAddCase) {
+            this.toolbar.items[0].props.disabled = false
+          } else {
+            this.toolbar.items[0].props.disabled = true
+          }
+        })
       },
-      // cb: function() {
-      //   console.log(this)
-      //   // 获取组的信息（是否允许创建项目）this.listQuery.exactMatchArr[0].valueArr[0]
-      //   console.log(this.listQuery.exactMatchArr[0].valueArr[0])
-      //   const groupId = this.listQuery.exactMatchArr[0].valueArr[0]
-      //   action(PROJECTLIB_GROUP, 'detail', {
-      //     groupId: groupId
-      //   }).then(result => {
-      //     if (result.data.content.enableAddCase) {
-      //       this.toolbar.items[0].props.disabled = false
-      //     } else {
-      //       this.toolbar.items[0].props.disabled = true
-      //     }
-      //   })
+      allowStatus: {},
+      // allowStatus: {
+      //   new: { desktopState: ['RUNNING'] },
+      //   stop: { desktopState: ['RUNNING'] },
+      //   delete: { desktopState: ['CLOSE'] },
+      //   revert: { desktopState: ['CLOSE'], desktopType: ['PERSONAL', 'APP_LAYER'] },
+      //   remote: { desktopState: ['RUNNING'] },
+      //   editStrategy: { desktopState: ['CLOSE'], userType: ['NORMAL', 'AD'] },
+      //   editNetwork: { desktopState: ['CLOSE'], userType: ['NORMAL', 'AD'] },
+      //   errorRecover: { desktopState: ['ERROR'] }
       // },
       toolbar: {
-        moreBtnWidth: 160,
         searchPlaceholder: 'projectM.search',
+        moreBtnWidth: 160,
+        searchWidth: 350,
         items: [
           {
             slot: 'refresh-rigtht',
@@ -88,11 +90,11 @@ export default {
               icon: 'sk-icon-add'
             },
             // action: 'Pmnew',
-            command: 'Pmnew',
-            tip: 'tips.operation.projectM.new',
-            confirm: {
-              msg: 'tips.confirm.projectM.batchnewMsg'
-            }
+            command: 'Pmnew'
+            // tip: 'tips.operation.projectM.new',
+            // confirm: {
+            //   msg: 'tips.confirm.projectM.batchnewMsg'
+            // }
           }
         ],
         moreBtns: {
@@ -101,8 +103,8 @@ export default {
               icon: 'sk-icon-refresh',
               label: 'projectM.revert',
               name: 'revert',
-              command: 'CdReset',
-              disabled: true
+              command: 'CdReset'
+              // disabled: true,
               //   tip: 'tips.operation.projectM.revert',
               // confirm: {
               //   grade: 1,
@@ -137,8 +139,8 @@ export default {
         columns: [
           {
             props: {
-              type: 'selection',
-              width: 55
+              type: 'selection', // 包括 selection、radio、index等类型
+              width: 50
             }
           },
           {
@@ -149,19 +151,26 @@ export default {
               sortField: 'projectNumber', // 后端排序字段
               width: 130
             },
-            dataType: 'link',
-            action: 'ShowProjectDetail'
+            dataType: 'link'
           },
           {
             props: {
-              label: 'projectM.title',
-              prop: 'title',
+              label: 'projectM.groupName',
+              prop: 'groupName',
               sortable: 'custom',
-              sortField: 'title',
+              sortField: 'groupName'
+            }
+          },
+          {
+            props: {
+              label: 'projectM.title', // 显示的标题
+              prop: 'title', // 对应列内容的字段名
+              sortable: 'custom', // 后端排序，需要配置成自定以排序字段,
+              sortField: 'title', // 后端排序字段
               width: 130
             },
             dataType: 'link',
-            action: 'ShowProjectDetail'
+            action: 'CdShowCloudDesktopDetail'
           },
           {
             props: {
@@ -175,34 +184,42 @@ export default {
               label: 'projectM.LeaderType',
               prop: 'LeaderType',
               width: 120
-            }
+            },
+            dataType: 'enum'
           },
           {
             props: {
               label: 'projectM.projectState',
               prop: 'projectState',
-              width: 105
+              width: 130
             },
-            // dataType: 'state',
+            dataType: 'state',
             dictionaryPath: 'projectState.normal',
             filter: true
           },
+          //   {
+          //     props: {
+          //       label: 'projectM.projectprogress',
+          //       width: 230,
+          //       resizable: false
+          //     }
+          //   },
           {
             props: {
               label: 'projectM.productType',
               prop: 'productType',
               width: 110
             },
-            // dataType: 'enum',
+            dataType: 'enum',
             filter: true
           },
           {
             props: {
               label: 'projectM.projecttime',
-              prop: 'projecttime',
+              prop: 'projectstarttime',
               sortable: 'custom',
               sortField: 'projecttime',
-              width: 200
+              width: 130
             }
           },
           {
@@ -211,45 +228,75 @@ export default {
               prop: 'timeprogress',
               sortable: 'custom',
               sortField: 'timeprogress',
-              width: 150
-            }
+              width: 130
+            },
+            dataType: 'date'
           }
         ],
         menus: [
           {
-            icon: 'el-icon-edit',
-            label: 'projectM.edit',
-            name: 'edit',
-            command: 'ProJectEdit',
-            tip: 'tips.operation.projectM.edit',
+            icon: 'sk-icon-power',
+            label: 'projectM.stop',
+            name: 'stop',
+            command: 'CdStop',
+            disabled: true,
+            tip: 'tips.operation.projectM.stop',
             confirm: {
-              msg: 'tips.confirm.projectM.batcheditMsg'
+              msg: 'tips.confirm.projectM.stopMsg'
             }
           },
           {
-            icon: 'el-icon-document',
-            label: 'projectM.projectDetail',
-            name: 'detail',
-            command: 'ShowProjectDetail'
+            icon: 'sk-icon-remote',
+            label: 'projectM.remote',
+            // tip: 'tips.operation.projectM.remote',
+            name: 'remote',
+            command: 'CdOrigin'
+          },
+          {
+            icon: 'sk-icon-refresh',
+            label: 'projectM.revert',
+            name: 'revert',
+            command: 'CdReset'
+            // tip: 'tips.operation.projectM.revert',
+            // confirm: {
+            //   grade: 1,
+            //   msg: 'tips.confirm.projectM.revertMsg'
+            // }
+          },
+          {
+            command: 'CdEditStrategy',
+            label: 'strategy.editCloudDesktop',
+            icon: 'el-icon-edit',
+            // tip: 'tips.operation.projectM.editStrategy',
+            name: 'editStrategy'
+          },
+          {
+            command: 'CdEditNetwork',
+            label: 'strategy.editNetwork',
+            icon: 'el-icon-edit',
+            // tip: 'tips.operation.projectM.editStrategy',
+            name: 'editNetwork'
+          },
+          {
+            command: 'CdErrorRecover',
+            label: 'strategy.errorRecover',
+            icon: 'sk-icon-reset',
+            // tip: 'tips.operation.projectM.errorRecover',
+            name: 'errorRecover'
+          },
+          {
+            command: 'CdDelete',
+            label: 'projectM.delete',
+            disabled: true,
+            name: 'delete',
+            // tip: 'tips.operation.projectM.close',
+            // confirm: {
+            //   grade: 1,
+            //   msg: 'tips.confirm.projectM.deleteMsg',
+            //   subMsg: 'tips.confirm.projectM.deleteSubMsg'
+            // },
+            icon: 'el-icon-delete'
           }
-          // {
-          //   icon: 'sk-icon-reset',
-          //   label: 'projectM.movingToGroup',
-          //   name: 'movingToGroup',
-          //   command: 'UmPasswordReset',
-          //   tip: 'tips.operation.userManage.passwordReset'
-          // },
-          // {
-          //   icon: 'el-icon-delete',
-          //   label: 'delete',
-          //   command: 'UmDeleteUser',
-          //   name: 'umDeleteUser',
-          //   tip: 'tips.operation.userManage.delete',
-          //   confirm: {
-          //     grade: 1,
-          //     msg: 'tips.confirm.userManage.userDeleteMsg'
-          //   }
-          // }
         ]
       }
     }

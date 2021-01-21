@@ -70,6 +70,10 @@ Mock.mock(/\/jingwei\/projectM\/projectLib\/project\/edit/, 'post', projectMAPI.
 // 项目列表
 Mock.mock(/\/jingwei\/projectM\/projectLib\/project\/list/, 'post', projectMAPI.getProjectList)
 
+// 保存项目
+Mock.mock(/\/jingwei\/projectM\/projectLib\/project\/create/, 'post', projectMAPI.getProjectList)
+
+Mock.mock(/\/jingwei\/projectM\/projectLib\/project\/getInfo/, 'post', projectMAPI.getProJectForBasic)
 // 获取分组详情
 Mock.mock(/\/jingwei\/projectM\/projectLib\/group\/detail/, 'post', projectMAPI.groupDetail)
 
@@ -78,9 +82,9 @@ Mock.mock(/\/jingwei\/projectM\/projectLib\/group\/list/, 'post', projectMAPI.ge
 
 //项目编号重复检验
 Mock.mock(
-  /\/jingwei\/projectM\/projectLib\/project\/checkCaseNumberDuplication/,
+  /\/jingwei\/projectM\/projectLib\/project\/checkProjectNumberDuplication/,
   'post',
-  projectMAPI.checkCaseNumberDuplication
+  projectMAPI.checkProjectNumberDuplication
 )
 // 通用
 Mock.mock(/\/all/, 'post', data.fetch)

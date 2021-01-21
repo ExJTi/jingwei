@@ -5,6 +5,7 @@ export default {
     },
     projectM: {
       batchnewMsg: '新建项目吗?',
+      batcheditMsg: '编辑项目吗?',
       stopMsg: '停止项目({label})？'
     }
   },
@@ -18,11 +19,11 @@ export default {
     },
     projectM: {
       new: '新建',
+      edit: '编辑',
       stop: '停止',
       createGroup: '当前分组下已关联项目，无法新增分组',
       deleteGroup: '系统内置的和已关联项目的分组无法删除',
-      editGroup: '系统内置分组无法编辑',
-      editTestCase: ''
+      editGroup: '系统内置分组无法编辑'
     },
     userManage: {
       deletedMsg: '请选择未创建云桌面或所有云桌面关闭的用户（注意：AD域和LDAP域用户需要禁用才能删除）',

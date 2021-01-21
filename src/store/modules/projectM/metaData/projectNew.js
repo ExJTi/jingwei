@@ -2,7 +2,8 @@ import { CATEGORY_OPTIONS } from './categoryOptions'
 // import { CATEGORY_USERS } from './Users'
 import { CATEGORY_USERS } from './Users'
 import { CATEGORY_VERSION } from './version'
-// import { PROJECTLIB_PROJECT } from '@/api/apiModules'
+
+import { PROJECTLIB_PROJECT } from '@/api/apiModules'
 
 export default {
   viewType: 'form',
@@ -15,6 +16,9 @@ export default {
         $id: 'projectNumber',
         $type: 'input',
         label: 'projectM.projectNumber',
+        $el: {
+          placeholder: '请输入项目编号'
+        },
         rules: [
           {
             notEmpty: 'projectM.projectNumber'
@@ -23,7 +27,7 @@ export default {
           'textName',
           {
             checkDuplication: {
-              // url: `${PROJECTLIB_PROJECT}/checkCaseNumberDuplication`,
+              url: `${PROJECTLIB_PROJECT}/checkProjectNumberDuplication`,
               duplicateParams: [
                 'name',
                 {
@@ -39,6 +43,9 @@ export default {
         $id: 'title',
         $type: 'input',
         label: 'projectM.title',
+        $el: {
+          placeholder: '请输入项目名称'
+        },
         rules: [
           {
             notEmpty: 'projectM.title'
@@ -47,7 +54,7 @@ export default {
           'textName',
           {
             checkDuplication: {
-              // url: `${PROJECTLIB_PROJECT}/checkCaseNumberDuplication`,
+              url: `${PROJECTLIB_PROJECT}/checkProjectNumberDuplication`,
               duplicateParams: [
                 'name',
                 {
@@ -63,7 +70,7 @@ export default {
         $id: 'projectLeader',
         $type: 'input',
         $el: {
-          disabled: false
+          placeholder: '请输入项目负责人'
         },
         label: 'projectM.projectLeader'
       },
@@ -144,7 +151,6 @@ export default {
         $type: 'date-picker',
         label: 'projectM.projecttime',
         $el: {
-          placeholder: 'r',
           type: 'daterange'
         },
         rules: {

@@ -2,6 +2,7 @@ import { PROJECTLIB_PROJECT } from '@/api/apiModules'
 
 export default {
   viewType: 'detail',
+  module: PROJECTLIB_PROJECT,
   toolbar: {
     hasRefresh: true,
     items: [
@@ -14,7 +15,6 @@ export default {
   },
   view: {
     description: {
-      label: 'PROJECTMng.baseInfo',
       viewMetaData: {
         viewType: 'form',
         params: null,
@@ -34,6 +34,10 @@ export default {
                 {
                   $id: 'title',
                   label: 'projectM.title'
+                },
+                {
+                  $id: 'projectLeader',
+                  label: 'projectM.projectLeader'
                 }
               ]
             }
@@ -52,18 +56,15 @@ export default {
             isSimple: false,
             labelWidth: '120px',
             header: {
-              icon: 'sk-icon-computer',
-              $id: 'desktopName'
-              // desktopState: null,
-              // dictionaryPath: 'desktopState.normal'
+              icon: 'sk-icon-baseinfo',
+              $id: 'title',
+              label: 'projectM.title'
             },
             content: [
               {
                 isGroup: true,
                 $type: 'group',
                 $id: 'base',
-                title: 'overview',
-                icon: 'sk-icon-overview',
                 $items: [
                   {
                     $id: 'version',
@@ -77,6 +78,8 @@ export default {
                     $id: 'bugrate',
                     label: 'projectM.bugrate'
                   }
+                  // timeprogress: '项目时间进度',
+                  // projectprogress: '项目进度',
                 ]
               }
             ]
